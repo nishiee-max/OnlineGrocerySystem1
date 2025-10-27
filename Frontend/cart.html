@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart</title>
+  <style>
+    body {
+      background: #1e272e;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #cartItems {
+      width: 100%;
+      max-width: 600px;
+    }
+    .item {
+      background: #2f3640;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .item h3 {
+      margin: 0;
+    }
+    .item p {
+      margin: 5px 0;
+    }
+    .remove-btn {
+      background: #e74c3c;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .checkout-btn {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+      padding: 12px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .checkout-btn:hover {
+      background: #219150;
+    }
+    .success-message {
+      display: none;
+      margin-top: 30px;
+      background-color: #2ecc71;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .item {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Your Shopping Cart</h2>
+  <div id="cartItems"></div>
+  <button class="checkout-btn" onclick="checkout()">Place Order</button>
+  <div class="success-message" id="successMessage">
+    <h3>🎉 Order placed successfully!</h3>
+    <p>Thank you for shopping with 🍎RG_Grocery!</p>
+  </div>
+
+  <script>
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("cartItems");
+      if (cart.length === 0) {
+        container.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+
+      container.innerHTML = cart.map((item, index) => `
+        <div class="item">
+          <h3>${item.name}</h3>
+          <p>Price: Rs. ${item.price}</p>
+          <p>Quantity: ${item.weight} Kg</p>
+          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+        </div>
+      `).join('');
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem("cart"));
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function checkout() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if (cart.length === 0) {
+        alert("Cart is empty.");
+        return;
+      }
+      localStorage.removeItem("cart");
+      renderCart();
+      document.getElementById("successMessage").style.display = "block";
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RG_Grocery | Admin Panel 🍎</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-300 via-pink-200 to-yellow-100 min-h-screen p-5 font-[Segoe UI]">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-4xl font-bold text-center text-purple-800 mb-8 drop-shadow-lg">🍎 RG_Grocery Admin Dashboard</h1>
+
+    <!-- Add Fruit Section -->
+    <div class="glass p-6 mb-8 rounded-xl shadow-xl bg-white/30 backdrop-blur-md">
+      <h2 class="text-2xl font-semibold text-pink-700 mb-4">Add Fruit</h2>
+      <div class="grid sm:grid-cols-3 gap-4 mb-4">
+        <input id="addName" type="text" placeholder="Name" class="input" />
+        <input id="addPrice" type="number" min="0" placeholder="Price" class="input" />
+        <input id="addWeight" type="number" min="0" placeholder="Weight" class="input" />
+      </div>
+      <button onclick="addFruit()" class="btn bg-pink-500 hover:bg-pink-600">➕ Add</button>
+      <p id="addResult" class="text-green-700 mt-2"></p>
+    </div>
+
+    <!-- Update Fruit Section -->
+    <div class="glass p-6 mb-8 rounded-xl shadow-xl bg-white/30 backdrop-blur-md">
+      <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Update Fruit</h2>
+      <div class="grid sm:grid-cols-4 gap-4 mb-4">
+        <input id="updateId" type="number" min="0" placeholder="ID" class="input" />
+        <input id="updateName" type="text" placeholder="Name" class="input" />
+        <input id="updatePrice" type="number" min="0" placeholder="Price" class="input" />
+        <input id="updateWeight" type="number" min="0" placeholder="Weight" class="input" />
+      </div>
+      <button onclick="updateFruit()" class="btn bg-indigo-500 hover:bg-indigo-600">✏️ Update</button>
+      <p id="updateResult" class="text-green-700 mt-2"></p>
+    </div>
+
+    <!-- Delete Fruit Section -->
+    <div class="glass p-6 mb-8 rounded-xl shadow-xl bg-white/30 backdrop-blur-md">
+      <h2 class="text-2xl font-semibold text-red-700 mb-4">Delete Fruit</h2>
+      <div class="flex gap-4">
+        <input id="deleteId" type="number" min="0" placeholder="Fruit ID" class="input flex-grow" />
+        <button onclick="deleteFruit()" class="btn bg-red-500 hover:bg-red-600">🗑️ Delete</button>
+      </div>
+      <p id="deleteResult" class="text-green-700 mt-2"></p>
+    </div>
+
+    <!-- List Fruits -->
+    <div class="glass p-6 rounded-xl shadow-xl bg-white/30 backdrop-blur-md">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-2xl font-semibold text-green-800">Fruit List</h2>
+        <button onclick="loadFruits()" class="btn bg-green-500 hover:bg-green-600">🔃 Refresh</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-xl">
+          <thead class="bg-green-300 text-green-900">
+            <tr>
+              <th class="px-4 py-2">ID</th>
+              <th class="px-4 py-2">Name</th>
+              <th class="px-4 py-2">Price ($)</th>
+              <th class="px-4 py-2">Weight (kg)</th>
+            </tr>
+          </thead>
+          <tbody id="fruitTableBody" class="text-center text-sm">
+            <!-- Dynamic Rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .input {
+      padding: 10px;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+    .input:focus {
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+    }
+    .btn {
+      padding: 10px 20px;
+      color: white;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  </style>
+
+  <script>
+    const apiUrl = "http://localhost:8080";
+
+    function addFruit() {
+      const name = document.getElementById("addName").value;
+      const price = parseFloat(document.getElementById("addPrice").value);
+      const weight = parseFloat(document.getElementById("addWeight").value);
+
+      if (price < 0 || weight < 0) {
+        document.getElementById("addResult").innerText = "❌ Price and Weight must be non-negative.";
+        return;
+      }
+
+      const fruit = { name, price, weight };
+
+      fetch(`${apiUrl}/addfruit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fruit)
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("addResult").innerText = data;
+        loadFruits();
+      });
+    }
+
+    function updateFruit() {
+      const id = parseInt(document.getElementById("updateId").value);
+      const name = document.getElementById("updateName").value;
+      const price = parseFloat(document.getElementById("updatePrice").value);
+      const weight = parseFloat(document.getElementById("updateWeight").value);
+
+      if (id < 0 || price < 0 || weight < 0) {
+        document.getElementById("updateResult").innerText = "❌ ID, Price, and Weight must be non-negative.";
+        return;
+      }
+
+      const fruit = { id, name, price, weight };
+
+      fetch(`${apiUrl}/updatefruit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fruit)
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("updateResult").innerText = data;
+        loadFruits();
+      });
+    }
+
+    function deleteFruit() {
+      const id = parseInt(document.getElementById("deleteId").value);
+
+      if (id < 0) {
+        document.getElementById("deleteResult").innerText = "❌ ID must be non-negative.";
+        return;
+      }
+
+      fetch(`${apiUrl}/deletefruit`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      })
+      .then(() => {
+        document.getElementById("deleteResult").innerText = "✅ Deleted successfully.";
+        loadFruits();
+      });
+    }
+
+    function loadFruits() {
+      fetch(`${apiUrl}/fruits`)
+        .then(res => res.json())
+        .then(fruits => {
+          const tbody = document.getElementById("fruitTableBody");
+          tbody.innerHTML = "";
+
+          fruits.forEach(fruit => {
+            const row = document.createElement("tr");
+            row.classList = "hover:bg-green-100";
+            row.innerHTML = `
+              <td class="px-4 py-2">${fruit.id}</td>
+              <td class="px-4 py-2">${fruit.name}</td>
+              <td class="px-4 py-2">${fruit.price.toFixed(2)}</td>
+              <td class="px-4 py-2">${fruit.weight.toFixed(2)}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        });
+    }
+
+    // Auto-load fruits on page load
+    window.onload = loadFruits;
+  </script>
+</body>
+</html>

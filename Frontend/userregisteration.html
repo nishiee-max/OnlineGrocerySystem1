@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a2e00c1c1f.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gradient-to-br from-sky-800 via-blue-700 to-emerald-600 min-h-screen flex items-center justify-center px-4">
+
+  <div class="w-full max-w-md bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl p-8 animate-fadeIn border border-white/20">
+    <h2 class="text-3xl font-bold text-white text-center mb-6 drop-shadow">📝 User Registration</h2>
+    
+    <form action="user-dashboard.html" onsubmit="saveUser()">
+      
+      <div class="mb-5">
+        <label for="user-name" class="block text-white font-medium mb-2">Full Name</label>
+        <div class="relative">
+          <input id="user-name" type="text" required placeholder="Enter your full name"
+            class="w-full pl-10 pr-4 py-3 rounded-lg border border-white/30 bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-emerald-400"/>
+          <i class="fas fa-user absolute top-1/2 left-3 -translate-y-1/2 text-white/70"></i>
+        </div>
+      </div>
+
+      <div class="mb-5">
+        <label for="user-email" class="block text-white font-medium mb-2">Email Address</label>
+        <div class="relative">
+          <input id="user-email" type="email" required placeholder="user@example.com"
+            class="w-full pl-10 pr-4 py-3 rounded-lg border border-white/30 bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-emerald-400"/>
+          <i class="fas fa-envelope absolute top-1/2 left-3 -translate-y-1/2 text-white/70"></i>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="user-password" class="block text-white font-medium mb-2">Password</label>
+        <div class="relative">
+          <input id="user-password" type="password" required placeholder="••••••••"
+            class="w-full pl-10 pr-4 py-3 rounded-lg border border-white/30 bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-emerald-400"/>
+          <i class="fas fa-lock absolute top-1/2 left-3 -translate-y-1/2 text-white/70"></i>
+        </div>
+      </div>
+
+      <button type="submit"
+        class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all duration-300 shadow-md">
+                <a href="./home.html" >✍️ Register Now</a>
+      </button>
+
+      <p class="text-center text-white text-sm mt-5">
+        Already have an account?
+        <a href="userlogin.html" class="text-yellow-300 hover:underline">Login here</a>
+      </p>
+
+      <div class="flex justify-between text-sm mt-4 text-white/80">
+        <a href="#" class="hover:text-emerald-300">Terms & Privacy</a>
+        <a href="./adminlogin.html" class="hover:text-emerald-300">Admin Login</a>
+      </div>
+    </form>
+  </div>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.6s ease-out;
+    }
+  </style>
+
+  <script>
+    function saveUser() {
+      const name = document.getElementById("user-name").value;
+      const email = document.getElementById("user-email").value;
+      localStorage.setItem("user_name", name);
+      localStorage.setItem("user_email", email);
+    }
+  </script>
+</body>
+</html>
