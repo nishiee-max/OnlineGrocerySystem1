@@ -1,4 +1,4 @@
-# 🛒 RG_Grocery – Modern E-Commerce Grocery Website
+# 🛒 Online_Grocery – Modern E-Commerce Grocery Website
 
 ## 📘 Project Description
 
