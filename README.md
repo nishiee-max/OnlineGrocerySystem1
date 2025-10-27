@@ -2,7 +2,7 @@
 
 ## 📘 Project Description
 
-**RG_Grocery** is a responsive and dynamic e-commerce grocery shopping website that enables users to browse, search, filter, and purchase fresh groceries online. It includes both **User** and **Admin** modules, allowing real-time product management and smooth user interaction. The website is built using HTML, CSS (Tailwind), and JavaScript, with backend support for product data management via REST APIs.
+**Online_Grocery** is a responsive and dynamic e-commerce grocery shopping website that enables users to browse, search, filter, and purchase fresh groceries online. It includes both **User** and **Admin** modules, allowing real-time product management and smooth user interaction. The website is built using HTML, CSS (Tailwind), and JavaScript, with backend support for product data management via REST APIs.
 
 ---
 
@@ -94,5 +94,3 @@
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/RavulaGani/42111554-final-project.git
-   cd 42111554-final-project
